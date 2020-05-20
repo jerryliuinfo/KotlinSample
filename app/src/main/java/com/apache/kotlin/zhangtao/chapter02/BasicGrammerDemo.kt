@@ -1,6 +1,5 @@
 package com.apache.kotlin.zhangtao.chapter02
 
-import com.apache.kotlin.domain_func2.AA
 import com.apache.kotlin.util.LogUtils
 import kotlin.reflect.KClass
 

@@ -10,9 +10,9 @@ private  data class Person(val name:String, val age:Int){
 //    override fun toString(): String {
 //        return "name:$name, age:$age"
 //    }
+
+
 }
-
-
 fun main() {
     val person1 = Person("jerry",19)
     val person2 = Person("jerry",19)
@@ -23,6 +23,7 @@ fun main() {
     println(person1)
 
 
-    println("copy:${person1.copy()}")
+    val copyPerson:Person = person1.copy(age = 10)
+    println("copyPerson:${copyPerson}")
 
 }

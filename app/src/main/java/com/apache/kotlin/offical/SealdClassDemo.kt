@@ -1,4 +1,4 @@
-package com.apache.kotlin.hencoder.chapter01
+package com.apache.kotlin.offical
 
 /**
  * Created by Jerry on 2020-05-25.
@@ -18,14 +18,29 @@ object NotANumber : Expr()
 
 fun eval(expr: Expr): Double = when(expr) {
     is Const -> expr.number
-    is Sum -> eval(expr.e1) + eval(expr.e2)
+    is Sum -> eval(
+        expr.e1
+    ) + eval(expr.e2)
     NotANumber -> Double.NaN
     // the `else` clause is not required because we've covered all the cases
 }
 
 fun main() {
-    println(eval(Const(2.0)))
-    println(eval(Sum(Const(3.0),Const(4.0))))
+    println(
+        eval(
+            Const(
+                2.0
+            )
+        )
+    )
+    println(
+        eval(
+            Sum(
+                Const(3.0),
+                Const(4.0)
+            )
+        )
+    )
     println(eval(NotANumber))
 
 }

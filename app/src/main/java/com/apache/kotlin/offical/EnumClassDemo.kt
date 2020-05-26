@@ -1,7 +1,4 @@
-package com.apache.kotlin.hencoder.chapter01
-
-import java.util.function.BinaryOperator
-import java.util.function.IntBinaryOperator
+package com.apache.kotlin.offical
 
 /**
  * Created by Jerry on 2020-05-25.

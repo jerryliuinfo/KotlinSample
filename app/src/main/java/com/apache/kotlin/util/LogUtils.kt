@@ -9,5 +9,6 @@ object LogUtils {
     val TAG = "  "
     fun d(msg:String){
         Log.d(TAG, msg)
+        println(msg)
     }
 }

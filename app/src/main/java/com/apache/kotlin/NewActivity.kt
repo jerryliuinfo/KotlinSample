@@ -1,6 +1,5 @@
 package com.apache.kotlin
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +18,7 @@ import com.apache.kotlin.hencoder.chapter01.User
         val user: User = User()
         println(user.name?.length)
         //println(user.name!!.length)
+
     }
 
 

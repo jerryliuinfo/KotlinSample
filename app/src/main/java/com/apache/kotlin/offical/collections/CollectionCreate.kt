@@ -72,4 +72,9 @@ fun main() {
     println(numbers2.mapIndexed { idx, value -> value * idx })
     println(numbers2.mapIndexed { idx, value -> value * idx })
 
+
+    //关联生成 Map
+
+    val numbers3 = listOf("one", "two", "three", "four")
+    println(numbers3.associateWith { it.length })
 }

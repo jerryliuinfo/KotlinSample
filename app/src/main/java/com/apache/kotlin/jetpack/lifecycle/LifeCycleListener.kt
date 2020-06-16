@@ -2,6 +2,7 @@ package com.apache.kotlin.jetpack.lifecycle
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import com.apache.kotlin.util.LogUtils
 
@@ -17,6 +18,7 @@ class LifeCycleListener:LifecycleObserver,IlifeCycle {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     override fun onStart() {
+
         LogUtils.d("Lifecycle call onStart")
     }
 
@@ -34,6 +36,7 @@ class LifeCycleListener:LifecycleObserver,IlifeCycle {
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     override fun onStop() {
         LogUtils.d("Lifecycle call onStop")
+
 
     }
 

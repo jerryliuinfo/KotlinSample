@@ -5,6 +5,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.apache.kotlin.jetpack.OrdinaryListener.OrdinaryListener
 import com.apache.kotlin.jetpack.lifecycle.LifeCycleListener
+import com.apache.kotlin.usage.VodApplicationLifeCallback
 
 
 open  class MainActivity : AppCompatActivity(R.layout.activity_main) {
@@ -20,6 +21,10 @@ open  class MainActivity : AppCompatActivity(R.layout.activity_main) {
         mListener.onCreate()
 
         lifecycle.addObserver(LifeCycleListener())
+
+        VodApplicationLifeCallback.instance.registerApplicationCallback()
+
+
 
     }
 

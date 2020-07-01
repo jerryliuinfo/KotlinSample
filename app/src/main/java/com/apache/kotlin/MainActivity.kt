@@ -1,7 +1,6 @@
 package com.apache.kotlin
 
 import android.os.Bundle
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.apache.kotlin.jetpack.OrdinaryListener.OrdinaryListener
 import com.apache.kotlin.jetpack.lifecycle.LifeCycleListener
@@ -23,6 +22,7 @@ open  class MainActivity : AppCompatActivity(R.layout.activity_main) {
         lifecycle.addObserver(LifeCycleListener())
 
         VodApplicationLifeCallback.instance.registerApplicationCallback()
+
 
 
 

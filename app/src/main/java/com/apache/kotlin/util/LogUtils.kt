@@ -6,7 +6,7 @@ import android.util.Log
  * Created by Jerry on 2020-04-18.
  */
 object LogUtils {
-    val TAG = "  "
+    val TAG = " "
     fun d(msg:String){
         Log.d(TAG, msg)
         println(msg)

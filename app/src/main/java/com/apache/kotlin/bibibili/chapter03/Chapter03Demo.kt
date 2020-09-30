@@ -10,21 +10,17 @@ import java.lang.IllegalArgumentException
 
 
 
- data class User constructor(val name:String){
-    constructor():this("")
-}
-
-private class User2 constructor(name: String){
+ class User constructor(name: String){
     var name = name
+    var gender:String? = null
 
     init {
         println("User2 init name:$name")
     }
 
-    constructor():this("defautl name")
-    constructor(name:String,id:String):this(name){
-        println("User2 secondary constructor")
-    }
+    constructor(name:String, id:String):this(name)
+    constructor(name:String, id:String,age:Int):this(name,id)
+
 }
 
 /**
@@ -52,13 +48,16 @@ fun sayHi(name:String) = println("hi $name")
 
 fun sayHi2(name:String = "Jerry") = println("hi $name")
 
+/**
+ * 命名参数
+ */
 fun sayHi3(name: String = "world", age:Int){
     println("sayHi3 name:$name, age:$age")
 }
 
-fun sayHi4(name: String, age:Int = 20){
+fun sayHi4(name: String, age:Int = 20) =
     println("sayHi4 name:$name, age:$age")
-}
+
 
 /**
  * 该函数中，检查参数这个部分有些冗余，我们又不想将这段逻辑作为一个单独的
@@ -97,15 +96,28 @@ fun login3(user: String, password: String, illegalStr: String){
     }
 }
 
-/**
- * 字符串模板还支持转义字符，比如使用转义字符 \n 进行换行操作：
- */
-fun testStringFormat(){
-    val name = "world!\n"
-    println("hi $name")
-    println("-----")
+fun testArrayCollectionOperator(){
+    val originArray = intArrayOf(1,2,3)
 
+    originArray.forEach { it ->
+        print(("$it "))
+    }
+    val filterList = originArray.filter {
+        it != 1
+    }
+    println("filterList:$filterList, originArray:${originArray}")
+
+    val map = originArray.map { it + 1 }
+    println("map:$map")
+
+    val flatMap = originArray.flatMap { listOf("${it + 1}", "a") }
+    println("flatMap:$flatMap")
 }
+
+
+
+
+
 
 /**
  * 这里的 trimMargin() 函数有以下几个注意点：
@@ -131,7 +143,8 @@ fun testRawString():String{
 /**************** Range开始 *******************/
 private fun testRange(){
     var range:IntRange = 0..10 //[0,10]
-    range = 0 until 10         //[0,10)
+    range = 0 until 5         //[0,10)
+    println("testRange begin ")
     //这里的 in 关键字可以与 for 循环结合使用，表示挨个遍历 range 中的值
     for (i in range){
         print("$i,")
@@ -147,6 +160,8 @@ private fun testRange(){
     for (i in 10 downTo 2){
         print("$i,")
     }
+    println("testRange end ")
+
     println()
 }
 
@@ -165,7 +180,9 @@ private fun testRange(){
 惰性指当出现满足条件的第一个元素的时候，Sequence 就不会执行后面的元素遍历了，即跳过了 4 的遍历。
  */
 private fun testSequence(){
-   val sequence = sequenceOf(1,2,3,4)
+    println("testSequence begin ")
+
+    val sequence = sequenceOf(1,2,3,4)
     val result = sequence.map {
         println("map it:$it")
         it * 2
@@ -261,8 +278,8 @@ private fun testCondition(){
  *
  */
 private fun testFor(){
-    println("测试for循环开始11")
-    val array = intArrayOf(1,3,5,7,9,11)
+    println("测试for循环开始")
+    val array = intArrayOf(1,3,5)
     /**
      * Kotlin 中 对数组的遍历是这么写的：
      * 这里与 Java 有几处不同：
@@ -288,7 +305,7 @@ private fun testFor(){
     }
     println()
     for ((index,item) in array.withIndex()){
-        print("$index:$item, ")
+        print("index:$index value:$item, ")
     }
     println("测试for循环结束")
 
@@ -314,7 +331,7 @@ private fun testMetaExpression(){
 fun validate(user: User) {
     println("begin validate")
     //验证 user.name 是否为空，为空时 return
-    val name = user.name ?: return // 👈 验证 user.name 是否为空，为空时 return
+    val name = user.gender ?: return // 👈 验证 user.name 是否为空，为空时 return
     println("validate name:$name")
 
 }
@@ -371,10 +388,6 @@ fun testTryCatch(){
 
 
 fun main() {
-    var user = User("user1")
-    var user2 = User2("remgwixoam")
-    user2 = User2("Jim", "1")
-    user2 = User2()
 
     var user3 = User3("jerry")
     println("user3 name:${user3.name}")
@@ -385,25 +398,9 @@ fun main() {
     sayHi3(age = 21)
 
     sayHi4("haha")
-    testStringFormat()
     println(testRawString())
+    testArrayCollectionOperator()
 
-
-    val originArray = intArrayOf(1,2,3)
-
-    originArray.forEach { it ->
-        print(("$it "))
-    }
-    val filterList = originArray.filter {
-        it != 1
-    }
-    println("filterList:$filterList, originArray:${originArray}")
-
-    val map = originArray.map { it + 1 }
-    println("map:$map")
-
-    val flatMap = originArray.flatMap { listOf("${it + 1}", "a") }
-    println("flatMap:$flatMap")
     testRange()
     testSequence()
     testCondition()

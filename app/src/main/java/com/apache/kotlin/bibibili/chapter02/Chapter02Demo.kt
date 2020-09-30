@@ -1,8 +1,6 @@
 package com.apache.kotlin.bibibili.chapter02
 
-import android.os.SystemClock
 import androidx.viewpager.widget.ViewPager
-import com.apache.kotlin.zhangtao.chapter03.test
 import okhttp3.internal.toImmutableMap
 import java.math.BigDecimal
 
@@ -13,61 +11,38 @@ import java.math.BigDecimal
  */
 
 
-
-
-
-private class User{
-    val id:Int
-    val name:String
+private data class User(val id:Int,val name: String){
     // 初始化代码块，先于下面的构造器执行
     init {
-        println("init")
+        println("init 先于构造器执行")
     }
-
-    constructor(id:Int, name: String){
-        println("constructor ")
-        this.id = id
-        this.name = name
-    }
-}
-
-/**
- * data class
- */
-private data class User2(val id:Int, val name:String){
     constructor(id:Int):this(id, "")
-}
-
-//常量
-val final = 1
-
-/**
- * Kotlin 函数参数默认是 val 类型，所以参数前不需要写 val 关键字
- */
-fun method(final2:String){
-
-}
-
-
-
-private  class User3(val id:Int, val name:String){
-    constructor(id:Int):this(id, "")
-
     val size:Int
-    /**
-     * val 和 final 还是有一点区别的，虽然 val 修饰的变量不能二次赋值，但可以通过自定义变量的 getter 函数，让变量每次被访问时，返回动态获取的值
-     */
-    get() {
-        println("size get")
-        return name.length
-    }
+        /**
+         * val 和 final 还是有一点区别的，虽然 val 修饰的变量不能二次赋值，但可以通过自定义变量的 getter 函数，让变量每次被访问时，返回动态获取的值
+         */
+        get() {
+            println("size get ")
+            return name.length
+        }
 
+    companion object{
+        val anotherString = "Another String"
+    }
 }
+
+
+
+
+
+
+
 
 /**
  * 伴生对象 实现静态变量和静态方法
+ * 用 object 修饰的对象中的变量和函数都是静态的，但有时候，我们只想让类中的一部分函数和变量是静态的该怎么做呢：
  */
-class Static{
+private class Static{
     companion object{
         val TAG = "TAG"
 
@@ -84,7 +59,7 @@ class Static{
 /**
  * object 实现单利
  */
-object SInstance{
+private object StaticClass{
     val number:Int = 1
     fun method(){
         println("object singleinstance method")
@@ -93,7 +68,7 @@ object SInstance{
 
 
 
- open class A{
+private open class A{
     open fun method(){
         println("call A method")
 
@@ -108,7 +83,7 @@ private interface B{
  * Kotlin 中不仅类可以继承别的类，可以实现接口，object 也可以
  * object 其实是把两步合并成了一步，既有 class 关键字的功能，又实现了单例
  */
- object C: A(),B{
+private  object C: A(),B{
     override fun interfaceMethod() {
         println("call C interfaceMethod")
     }
@@ -160,142 +135,66 @@ class ConstantValueClass{
     }
 }
 
-private class Sample{
-    val number = 1
-    fun method(){
-        println("Sample method")
-    }
-}
+
 
 
 fun main() {
     val user = User(18, "Jerry")
     println(user)
-
-    val user2 = User2(20,"Tom")
-    println(user2)
-
-    println(final)
-
-    val user3 = User3(20,"Hello")
-    println(user3.size)
+    println(user.size)
+    User.anotherString
 
 
     println(Static.TAG)
     Static.method()
 
-    println(SInstance.number)
-    SInstance.method()
+    println(StaticClass.number)
+    StaticClass.method()
 
     topLevelFunction()
 
 
-    //数组和集合
-    val strs:Array<String> = arrayOf("a", "b","c")
-    println("get:${strs[1]}, contains:${strs.contains("b")}, first:${strs.first()}, last:${strs.last()}")
-
-    //Kotlin 的数组编译成字节码时使用的仍然是 Java 的数组，但在语言层面是泛型实现，这样会失去协变 (covariance) 特性，就是子类数组对象不能赋值给父类的数组变量：
-    //val anys:Array<Any> = strs; //compile-error: Type mismatch
-
-    val strList:List<String> = listOf("a","b","c")
-    val anys:List<Any> = strList
-    println("listAnys:$anys")
-
-
-    val strSet = setOf("a","b", "c")
-
-    var map = mapOf("key1" to 1, "key2" to 2, "key3" to 3)
-    println("value1: ${map.get("key1")}, value2:${map["key2"]}")
-    val immutableMap = map.toImmutableMap()
-
-
-    val sample = Sample()
-    sample.method()
-
-
-    //exercise
-    println(ExerciseSample.newInstance())
-    println(ExerciseSample.newInstance())
-
-    println(ExerciseSample.instance)
-    println(ExerciseSample.instance)
-
-    testCost()
+    testArrayAndCollection()
 
 }
 
 
-private class ExerciseSample private constructor(){
-    companion object{
-        fun newInstance():ExerciseSample{
-            return ExerciseSample()
-        }
-
-        val instance:ExerciseSample by lazy { ExerciseSample() }
-    }
-}
 
 
 
-fun testCost(){
-    var starTime = System.nanoTime()
-    var array = Array(1_000_000) { it -> it.inc() }
-    var sumArray = 0
-//    array.forEach {
-//        sumArray += it
-//    }
-    for (it in array){
-        sumArray += it
-    }
-    var arrayAverage = BigDecimal(sumArray).divide(BigDecimal(array.size)).setScale(2, BigDecimal.ROUND_HALF_UP)
-
-    println("Array average value:$arrayAverage, cost time:${System.nanoTime() -starTime}")
-
-    starTime = System.nanoTime()
-    sumArray = array.sum()
-    println("Array sum average value:${BigDecimal(sumArray).divide(BigDecimal(array.size)).setScale(2, BigDecimal.ROUND_HALF_UP)}, " +
-            "cost time:${System.nanoTime() -starTime}")
-
-
-    sumArray = 0
-    starTime = System.nanoTime()
-    val intArray = IntArray(1_000_000) { it -> it.inc() }
-
-    for (it in intArray){
-        sumArray += it
-    }
-    println("IntArray average value:$arrayAverage, cost time:${System.nanoTime() -starTime}")
-    starTime = System.nanoTime()
-    sumArray = intArray.sum()
-    println("IntArray sum average value:${BigDecimal(sumArray).divide(BigDecimal(array.size)).setScale(2, BigDecimal.ROUND_HALF_UP)}, " +
-            "cost time:${System.nanoTime() -starTime}")
 
 
 
-    sumArray = 0
-    starTime = System.nanoTime()
-    val list = List(1_000_000) { it -> it.inc() }
 
-    for (it in list){
-        sumArray += it
-    }
-    println("List average value:$arrayAverage, cost time:${System.nanoTime() -starTime}")
-    starTime = System.nanoTime()
-    sumArray = list.sum()
-    println("List sum average value:${BigDecimal(sumArray).divide(BigDecimal(array.size)).setScale(2, BigDecimal.ROUND_HALF_UP)}, " +
-            "cost time:${System.nanoTime() -starTime}")
+fun testArrayAndCollection(){
+    val strsArray:Array<String> = arrayOf("a","b","c")
+    println("${strsArray[0]}, contains:${strsArray.contains("b")}, first:${strsArray.first()}, last:${strsArray.last()}")
+
+    //Kotlin 中的 List 多了一个特性：支持 covariant（协变）。也就是说，可以把子类的 List 赋值给父类的 List 变量：
+    val listOf = listOf("a", "b", "c")
+
+    val anys:List<Any> = listOf
+
+    val setOf = setOf("a", "b", "c")
+
+    val mapOf = mapOf("key1" to 1, "key2" to 2, "key3" to 1)
+
+
+
+    println("map key2:${mapOf["key2"]}")
+
+    /**
+     * 只有 mutableMapOf() 创建的 Map 才可以修改。Kotlin 中集合分为两种类型：只读的和可变的。这里的只读有两层意思：
+     * 1.集合的 size 不可变
+     * 2.集合中的元素值不可变
+     */
+    val mutableMapOf = mutableMapOf("key1" to 1, "key2" to 2, "key3" to 1)
+    mutableMapOf.put("key4", 4)
+
+    val sequenceOf = sequenceOf("a", "b", "c")
+
+    val asSequence = listOf("a", "b", "c").asSequence()
 
 }
 
 
-fun testIntArray(){
-    val starTime = System.nanoTime()
-    val array = IntArray(1_000_000) { it -> it.inc() }
-    var sumArray = 0
-    array.forEach {
-        sumArray += it
-    }
-    var arrayAverage = BigDecimal(sumArray).divide(BigDecimal(array.size)).setScale(2, BigDecimal.ROUND_HALF_UP)
-
-    println("average value:$arrayAverage, cost time:${System.nanoTime() -starTime}")
-}

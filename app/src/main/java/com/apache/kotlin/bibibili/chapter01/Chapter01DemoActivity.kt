@@ -9,14 +9,14 @@ import com.apache.kotlin.bibibili.chapter02.topLevelFunction
 /**
  * Created by Jerry on 2020-04-18.
  */
- class Chapter01DemoActivity :AppCompatActivity(R.layout.activity_main){
+ class Chapter01DemoActivity :AppCompatActivity(R.layout.activity_chapter_demo01){
     lateinit var textview:View
 
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        textview = findViewById(R.id.textView)
+        textview = findViewById(R.id.tv_message)
 
 
     }
